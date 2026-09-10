@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<title>PolliGuard — Smart Pollination Awareness</title>
+
+<style>
+  :root{
+    --bg:#f6fbf7;
+    --card:#ffffff;
+    --accent:#2c9a5a;
+    --muted:#6b6f72;
+    --soft:#dff3e6;
+    --glass: rgba(255,255,255,0.8);
+
+    font-family: Inter, system-ui, -apple-system,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),#f0f6f2);
+  }
+
+  .wrap{
+    max-width:1100px;
+    margin:28px auto;
+    padding:20px;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .logo-mark{
+    width:56px;
+    height:56px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#48b36b,#2c9a5a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:700;
+    font-size:20px;
+    box-shadow:0 6px 20px rgba(44,154,90,0.16);
+  }
+
+  h1{
+    margin:0;
+    font-size:20px;
+    color:#163b2f;
+  }
+
+  .tag{
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .cta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .btn{
+    background:var(--accent);
+    color:#fff;
+    padding:9px 14px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 6px 18px rgba(44,154,90,0.14);
+  }
+
+  .ghost{
+    background:transparent;
+    border:1px solid rgba(20,30,20,0.06);
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+
+  main{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    gap:22px;
+    margin-top:20px;
+  }
+
+  /* LEFT COLUMN */
+
+  .left{
+    background:var(--card);
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(14,20,16,0.04);
+  }
+
+  .hero{
+    display:flex;
+    gap:20px;
+    align-items:center;
+  }
+
+  .hero-text h2{
+    font-size:28px;
+    margin:0;
+    color:#0f402e;
+  }
+
+  .hero-text p{
+    margin:8px 0 0;
+    color:var(--muted);
+  }
+
+  .features{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:18px;
+  }
+
+  .feature{
+    flex:1 1 180px;
+    background:var(--soft);
+    padding:12px;
+    border-radius:10px;
+    color:#1e4b3a;
+    font-weight:600;
+  }
+
+  /* CROP GRID */
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-top:20px;
+  }
+
+  .card{
+    background:linear-gradient(180deg,#fff,#fbfff9);
+    padding:18px;
+    border-radius:12px;
+    border:1px solid rgba(10,20,10,0.03);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    min-height:120px;
+    transition:transform .18s ease,box-shadow .18s;
+  }
+
+  .card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 40px rgba(16,40,24,0.06);
+  }
+
+  .crop-emoji{
+    font-size:34px;
+  }
+
+  .crop-name{
+    font-weight:700;
+    color:#1f473a;
+  }
+
+  /* RIGHT COLUMN */
+
+  .right{
+    background:var(--card);
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 10px 30px rgba(14,20,16,0.04);
+  }
+
+  .panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  }
+
+  .status-badge{
+    padding:8px 12px;
+    border-radius:999px;
+    background:var(--soft);
+    font-weight:700;
+    color:var(--accent);
+  }
+
+  .status{
+    font-size:18px;
+    font-weight:700;
+    color:#0f402e;
+    margin-top:6px;
+  }
+
+  .meta{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+  }
+
+  .kpi{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .kpi .box{
+    flex:1;
+    background:#fbfff9;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    border:1px solid rgba(10,20,10,0.03);
+  }
+
+  .kpi .num{
+    font-weight:800;
+    color:#13422f;
+    font-size:18px;
+  }
+
+  .kpi .lbl{
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .demo-row{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    align-items:center;
+  }
+
+  .small{
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  /* MODAL */
+
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(5,10,6,0.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:60;
+  }
+
+  .panel{
+    background:var(--card);
+    border-radius:12px;
+    max-width:860px;
+    width:100%;
+    padding:20px;
+    box-shadow:0 30px 80px rgba(8,18,10,0.35);
+    max-height:88vh;
+    overflow:auto;
+  }
+
+  .panel h3{
+    margin-top:0;
+    color:#0f402e;
+  }
+
+  .panel .sub{
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.5;
+  }
+
+  .close-btn{
+    background:transparent;
+    border:0;
+    font-size:18px;
+    color:var(--muted);
+    cursor:pointer;
+  }
+
+  /* CROP SCHEDULE */
+
+  .schedule{
+    margin-top:24px;
+    border-top:1px solid rgba(20,60,40,0.08);
+    padding-top:16px;
+  }
+
+  .schedule-row{
+    display:grid;
+    grid-template-columns:1.2fr 1.5fr;
+    gap:20px;
+    padding:12px 0;
+    border-bottom:1px solid rgba(20,60,40,0.06);
+  }
+
+  .schedule-label{
+    font-weight:700;
+    color:#315445;
+  }
+
+  .schedule-value{
+    color:var(--muted);
+  }
+
+  footer{
+    margin-top:22px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    padding:10px;
+  }
+
+  /* RESPONSIVE */
+
+  @media (max-width:980px){
+
+    main{
+      grid-template-columns:1fr;
+      padding-bottom:60px;
+    }
+
+    .right{
+      order:2;
+    }
+
+    .left{
+      order:1;
+    }
+
+    .grid{
+      grid-template-columns:repeat(2,1fr);
+    }
+
+  }
+
+  @media (max-width:520px){
+
+    .grid{
+      grid-template-columns:repeat(1,1fr);
+    }
+
+    .hero-text h2{
+      font-size:20px;
+    }
+
+    header{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .schedule-row{
+      grid-template-columns:1fr;
+      gap:5px;
+    }
+
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+
+  <header>
+
+    <div class="brand">
+
+      <div class="logo-mark">PG</div>
+
+      <div>
+        <h1>PolliGuard — Smart Pollination Awareness</h1>
+        <div class="tag">Protect pollinators, protect yields</div>
+      </div>
+
+    </div>
+
+    <div class="cta">
+      <button class="ghost" id="viewDashboardBtn">
+        View Live Dashboard
+      </button>
+
+      <button class="btn" id="demoToggle">
+        DEMO OFF
+      </button>
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- LEFT SECTION -->
+
+    <section class="left">
+
+      <div class="hero">
+
+        <div style="flex:1" class="hero-text">
+
+          <h2>
+            Lightweight hardware + dashboard for real-time alerts
+          </h2>
+
+          <p class="tag">
+            An easy, farmer-friendly system that tells you when pollinators
+            are active and when it’s safe to spray.
+          </p>
+
+          <div class="features">
+
+            <div class="feature">
+              Crop-smart recommendations
+            </div>
+
+            <div class="feature">
+              Live field alerts
+            </div>
+
+            <div class="feature">
+              Clear safe-spray windows
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <h3 style="margin-top:20px;color:#173d2f">
+        Select Your Crop
+      </h3>
+
+      <div class="grid" id="cropGrid">
+        <!-- Crop cards added by JavaScript -->
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT DASHBOARD -->
+
+    <aside class="right">
+
+      <div class="panel-title">
+
+        <div>
+
+          <div style="font-size:13px;color:var(--muted)">
+            Live field status
+          </div>
+
+          <div class="status" id="statusText">
+            —
+          </div>
+
+          <div class="meta" id="subText">
+            Last update: —
+          </div>
+
+        </div>
+
+        <div class="status-badge" id="statusBadge">
+          Waiting
+        </div>
+
+      </div>
+
+
+      <div style="margin-top:8px">
+
+        <div class="kpi">
+
+          <div class="box">
+
+            <div class="num" id="countNum">
+              0
+            </div>
+
+            <div class="lbl">
+              Detections (session)
+            </div>
+
+          </div>
+
+
+          <div class="box">
+
+            <div class="num" id="lastTime">
+              —
+            </div>
+
+            <div class="lbl">
+              Last detected
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="demo-row">
+
+        <div>
+
+          <label class="small">
+            PolliGuard live endpoint
+          </label>
+
+          <div class="small" id="liveHint">
+            Reading V1 from Blynk
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+
+        <button class="ghost" id="refreshBtn">
+          Refresh now
+        </button>
+
+        <button class="ghost" id="simulateBtn">
+          Simulate detection
+        </button>
+
+      </div>
+
+
+      <div style="margin-top:16px;color:var(--muted);font-size:13px">
+
+        Tip: Use DEMO when your device is unplugged.
+        Live status updates every 3 seconds.
+
+      </div>
+
+    </aside>
+
+  </main>
+
+
+  <!-- CROP INFORMATION MODAL -->
+
+  <div class="overlay" id="overlay">
+
+    <div class="panel"
+         role="dialog"
+         aria-modal="true">
+
+      <div style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px">
+
+        <h3 id="cropTitle">
+          Crop
+        </h3>
+
+        <button class="close-btn" id="closePanel">
+          ✕
+        </button>
+
+      </div>
+
+
+      <div class="sub" id="cropText">
+
+        <!-- Crop information inserted here -->
+
+      </div>
+
+
+      <!-- FLOWERING / POLLINATION / SPRAY SCHEDULE -->
+
+      <div class="schedule">
+
+        <div class="schedule-row">
+
+          <div class="schedule-label">
+            Flowering window
+          </div>
+
+          <div class="schedule-value" id="floweringWindow">
+            —
+          </div>
+
+        </div>
+
+
+        <div class="schedule-row">
+
+          <div class="schedule-label">
+            Pollination peak
+          </div>
+
+          <div class="schedule-value" id="pollinationPeak">
+            —
+          </div>
+
+        </div>
+
+
+        <div class="schedule-row">
+
+          <div class="schedule-label">
+            Safe spraying time
+          </div>
+
+          <div class="schedule-value" id="safeSpray">
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <footer>
+    © 2024 Team EcoSphere — PolliGuard Project
+  </footer>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   POLLIGUARD WEBSITE
+========================================================= */
+
+
+/* BLYNK CONFIGURATION */
+
+const BLYNK_TOKEN = "zRjI3_f9SheehihglUImrHzy_i3tKAUQ";
+
+const BLYNK_VPIN = "V1";
+
+
+/* =========================================================
+   CROP DATA
+========================================================= */
+
+const crops = [
+
+  {
+    id:'mango',
+    name:'Mango',
+    emoji:'🥭',
+
+    text:
+`Mango trees begin their flowering season between December and February in many regions. During bloom the trees become very dependent on visiting insects—most notably honeybees and a variety of small native pollinators. These insects are busiest in the cooler morning hours when temperature and humidity create ideal nectar flow, and much of the pollination is completed before noon. To protect pollinators and improve fruit set, chemical sprays should be scheduled after dusk.`,
+
+    flowering:'December – February',
+    peak:'7 AM – 12 PM',
+    spray:'After 6 PM (evening)'
+  },
+
+  {
+    id:'sunflower',
+    name:'Sunflower',
+    emoji:'🌻',
+
+    text:
+`Sunflowers open their florets gradually and present fresh pollen each morning. Bees arrive soon after sunrise when pollen availability is highest, and intensive pollination often continues until early afternoon. Because seed quality and oil content depend heavily on repeated bee visits, daytime spraying interrupts a crucial natural process. Farmers can reduce pollinator exposure by shifting pesticide applications to late dusk or evening hours.`,
+
+    flowering:'January – March',
+    peak:'7 AM – 2 PM',
+    spray:'After 6 PM (evening)'
+  },
+
+  {
+    id:'mustard',
+    name:'Mustard',
+    emoji:'🌼',
+
+    text:
+`Mustard flowers attract a diverse mix of bees during cool morning hours, and the crop’s flowering phase is particularly sensitive to chemical exposure. Pollination commonly peaks mid-morning through midday, after which insect activity gradually decreases. Scheduling sprays after sunset can help reduce disturbance to active pollinators.`,
+
+    flowering:'October – February',
+    peak:'8 AM – 1 PM',
+    spray:'After 6 PM (evening)'
+  },
+
+  {
+    id:'tomato',
+    name:'Tomato',
+    emoji:'🍅',
+
+    text:
+`Tomato flowers are often pollinated through a vibration-driven behavior in bees, sometimes called buzz pollination, during which bees vibrate the flowers to release pollen. These visits are generally most effective from morning to early afternoon. Spraying during these active periods can disrupt pollinator activity, so evening applications are recommended.`,
+
+    flowering:'Throughout growing season',
+    peak:'8 AM – 2 PM',
+    spray:'After 5 PM'
+  },
+
+  {
+    id:'pomegranate',
+    name:'Pomegranate',
+    emoji:'🍎',
+
+    text:
+`Pomegranates produce bright blossoms that attract bees and butterflies. Morning hours typically experience higher pollinator activity, while visits tend to decline as temperatures rise later in the day. Scheduling sprays for the late evening can help keep flowers undisturbed during important pollination periods.`,
+
+    flowering:'March – May',
+    peak:'7 AM – 12 PM',
+    spray:'After 6 PM (evening)'
+  },
+
+  {
+    id:'cotton',
+    name:'Cotton',
+    emoji:'🌿',
+
+    text:
+`Cotton blooms early in the morning, and natural pollinators contribute to boll formation and crop quality. Pollinator activity generally decreases by late afternoon, creating a more suitable window for pest management. Avoiding sprays during active daytime periods helps protect beneficial insects.`,
+
+    flowering:'July – October',
+    peak:'7 AM – 11 AM',
+    spray:'After 5 PM'
+  }
+
+];
+
+
+/* =========================================================
+   DOM ELEMENTS
+========================================================= */
+
+const cropGrid =
+  document.getElementById('cropGrid');
+
+const overlay =
+  document.getElementById('overlay');
+
+const cropTitle =
+  document.getElementById('cropTitle');
+
+const cropText =
+  document.getElementById('cropText');
+
+const closePanel =
+  document.getElementById('closePanel');
+
+
+const floweringWindow =
+  document.getElementById('floweringWindow');
+
+const pollinationPeak =
+  document.getElementById('pollinationPeak');
+
+const safeSpray =
+  document.getElementById('safeSpray');
+
+
+const statusText =
+  document.getElementById('statusText');
+
+const statusBadge =
+  document.getElementById('statusBadge');
+
+const subText =
+  document.getElementById('subText');
+
+const countNum =
+  document.getElementById('countNum');
+
+const lastTime =
+  document.getElementById('lastTime');
+
+const liveHint =
+  document.getElementById('liveHint');
+
+
+const demoToggle =
+  document.getElementById('demoToggle');
+
+const refreshBtn =
+  document.getElementById('refreshBtn');
+
+const simulateBtn =
+  document.getElementById('simulateBtn');
+
+const viewDashboardBtn =
+  document.getElementById('viewDashboardBtn');
+
+
+/* =========================================================
+   APP VARIABLES
+========================================================= */
+
+let demoMode = false;
+
+let detectionCount = 0;
+
+let lastDetectionAt = null;
+
+let sessionActive = false;
+
+
+/* =========================================================
+   BUILD CROP CARDS
+========================================================= */
+
+crops.forEach(c => {
+
+  const card =
+    document.createElement('div');
+
+  card.className = 'card';
+
+  card.innerHTML =
+    `<div class="crop-emoji">${c.emoji}</div>
+     <div class="crop-name">${c.name}</div>`;
+
+  card.onclick = () => openCrop(c);
+
+  cropGrid.appendChild(card);
+
+});
+
+
+/* =========================================================
+   OPEN CROP INFORMATION
+========================================================= */
+
+function openCrop(crop){
+
+  cropTitle.textContent =
+    crop.name;
+
+  cropText.textContent = '';
+
+  const p =
+    document.createElement('p');
+
+  p.className = 'sub';
+
+  p.textContent =
+    crop.text;
+
+  cropText.appendChild(p);
+
+
+  floweringWindow.textContent =
+    crop.flowering;
+
+  pollinationPeak.textContent =
+    crop.peak;
+
+  safeSpray.textContent =
+    crop.spray;
+
+
+  overlay.style.display = 'flex';
+
+}
+
+
+/* CLOSE MODAL */
+
+closePanel.onclick = () =>
+  overlay.style.display = 'none';
+
+
+overlay.onclick = (e) => {
+
+  if(e.target === overlay){
+    overlay.style.display = 'none';
+  }
+
+};
+
+
+/* DASHBOARD BUTTON */
+
+viewDashboardBtn.onclick = () => {
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+};
+
+
+/* =========================================================
+   DEMO MODE
+========================================================= */
+
+demoToggle.addEventListener('click', () => {
+
+  demoMode = !demoMode;
+
+  demoToggle.textContent =
+    demoMode ? 'DEMO ON' : 'DEMO OFF';
+
+  liveHint.textContent =
+    demoMode
+      ? 'Demo mode: simulating events'
+      : 'Reading V1 from Blynk';
+
+});
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+simulateBtn.addEventListener('click', () => {
+
+  simulateDetection();
+
+});
+
+
+refreshBtn.addEventListener('click', () => {
+
+  fetchLive();
+
+});
+
+
+/* =========================================================
+   TIME FORMAT
+========================================================= */
+
+function niceTime(d){
+
+  if(!d) return '—';
+
+  return d.toLocaleTimeString([],{
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit'
+  });
+
+}
+
+
+/* =========================================================
+   POLLINATOR DETECTED
+========================================================= */
+
+function markDetection(){
+
+  detectionCount++;
+
+  lastDetectionAt =
+    new Date();
+
+  sessionActive = true;
+
+  countNum.textContent =
+    detectionCount;
+
+  lastTime.textContent =
+    niceTime(lastDetectionAt);
+
+  statusText.textContent =
+    '🌼 Pollinator detected';
+
+  statusBadge.textContent =
+    'Active';
+
+  statusBadge.style.background =
+    'linear-gradient(90deg,#fdeee8,#ffd9cd)';
+
+  statusBadge.style.color =
+    '#b23b2b';
+
+  subText.textContent =
+    'Last update: ' +
+    new Date().toLocaleString();
+
+}
+
+
+/* =========================================================
+   SAFE TO SPRAY
+========================================================= */
+
+function markSafe(){
+
+  statusText.textContent =
+    '✔ No activity — Safe to spray';
+
+  statusBadge.textContent =
+    'Safe';
+
+  statusBadge.style.background =
+    'var(--soft)';
+
+  statusBadge.style.color =
+    'var(--accent)';
+
+  subText.textContent =
+    'Last update: ' +
+    new Date().toLocaleString();
+
+}
+
+
+/* =========================================================
+   SIMULATION
+========================================================= */
+
+function simulateDetection(){
+
+  markDetection();
+
+  setTimeout(() => {
+
+    if(
+      lastDetectionAt &&
+      Date.now() - lastDetectionAt.getTime() >= 10000
+    ){
+      sessionActive = false;
+      markSafe();
+    }
+
+  },10000);
+
+}
+
+
+/* =========================================================
+   LIVE BLYNK FETCH
+========================================================= */
+
+async function fetchLive(){
+
+  if(demoMode){
+
+    liveHint.textContent =
+      'Demo: not polling Blynk';
+
+    return;
+
+  }
+
+  try{
+
+    liveHint.textContent =
+      'Reading V1 from Blynk';
+
+
+    const url =
+      `https://blynk.cloud/external/api/get?token=${encodeURIComponent(BLYNK_TOKEN)}&${BLYNK_VPIN}`;
+
+
+    const res =
+      await fetch(url,{
+        cache:'no-store'
+      });
+
+
+    if(!res.ok){
+
+      throw new Error(
+        'status ' + res.status
+      );
+
+    }
+
+
+    const text =
+      await res.text();
+
+
+    let parsed =
+      text.trim();
+
+
+    parsed =
+      parsed
+      .replace(/^\[|\]$/g,'')
+      .replace(/^"|"$/g,'')
+      .trim();
+
+
+    if(!parsed){
+
+      subText.textContent =
+        'No data from device';
+
+      return;
+
+    }
+
+
+    if(
+      parsed.toLowerCase().includes('pollinator') ||
+      parsed.toLowerCase().includes('detected')
+    ){
+
+      /*
+        Only register another detection
+        if enough time has passed.
+      */
+
+      if(
+        !lastDetectionAt ||
+        Date.now() - lastDetectionAt.getTime() > 3000
+      ){
+        markDetection();
+      }
+
+    }
+
+    else{
+
+      /*
+        Don't immediately change to SAFE
+        if a pollinator was detected recently.
+      */
+
+      if(
+        !lastDetectionAt ||
+        Date.now() - lastDetectionAt.getTime() > 10000
+      ){
+        sessionActive = false;
+        markSafe();
+      }
+
+    }
+
+  }
+
+  catch(err){
+
+    liveHint.textContent =
+      'Error reading Blynk';
+
+    console.warn(
+      'Fetch error',
+      err
+    );
+
+    subText.textContent =
+      'Live error: ' +
+      err.message;
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTO POLLING
+========================================================= */
+
+setInterval(
+  fetchLive,
+  3000
+);
+
+
+/* INITIAL FETCH */
+
+fetchLive();
+
+
+/* =========================================================
+   KEEP DETECTION ACTIVE FOR 10 SECONDS
+========================================================= */
+
+setInterval(() => {
+
+  if(
+    sessionActive &&
+    lastDetectionAt
+  ){
+
+    const diff =
+      Date.now() -
+      lastDetectionAt.getTime();
+
+
+    if(diff > 10000){
+
+      sessionActive = false;
+
+      markSafe();
+
+    }
+
+  }
+
+},1000);
+
+
+/* =========================================================
+   CLOSE MODAL WITH ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+  'keydown',
+  (e) => {
+
+    if(e.key === 'Escape'){
+
+      overlay.style.display =
+        'none';
+
+    }
+
+  }
+);
+
+
+/* INITIAL VALUES */
+
+countNum.textContent =
+  detectionCount;
+
+lastTime.textContent =
+  '—';
+
+</script>
+
+</body>
+</html>
